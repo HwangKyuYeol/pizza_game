@@ -20,3 +20,21 @@ canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}.hidde
   .rules{grid-template-columns:1fr 1fr}
   .rules div:last-child{grid-column:1/-1}
 }
+
+.danger{
+  position:absolute;
+  top:max(137px,calc(env(safe-area-inset-top) + 127px));
+  left:50%;
+  transform:translateX(-50%);
+  padding:8px 15px;
+  border-radius:99px;
+  background:linear-gradient(90deg,#161616,#5b0000);
+  color:#fff;
+  font-weight:900;
+  white-space:nowrap;
+  animation:dangerPulse .42s infinite alternate;
+}
+@keyframes dangerPulse{
+  from{transform:translateX(-50%) scale(1);filter:brightness(1)}
+  to{transform:translateX(-50%) scale(1.1);filter:brightness(1.45)}
+}
