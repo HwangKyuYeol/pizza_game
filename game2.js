@@ -12,19 +12,15 @@
   const timeEl = $("time");
   const pairsEl = $("pairs");
   const progress = $("progress");
+  const buildStage = $("buildStage");
+  const resultPizzaImage = $("resultPizzaImage");
   const countdown = $("countdown");
   const countdownText = $("countdownText");
 
   const CARD_IMAGES = Array.from({length:10}, (_,i) => `./assets/cards/pizza_${String(i+1).padStart(2,"0")}.png`);
 
-  const LEVELS = {
-    easy:   { time:60, preview:5, mismatchDelay:900, shuffleAt:null, label:"60초 · 5초 미리보기" },
-    normal: { time:45, preview:4, mismatchDelay:750, shuffleAt:null, label:"45초 · 4초 미리보기" },
-    hard:   { time:35, preview:3, mismatchDelay:620, shuffleAt:100, label:"35초 · 3초 미리보기 · 중간 셔플" }
-  };
-
-  let selectedLevel = "hard";
-  let config = LEVELS[selectedLevel];
+  const LEVEL = { time:45, preview:3.5, mismatchDelay:750 };
+  let config = LEVEL;
   let cards = [];
   let firstCard = null;
   let secondCard = null;
@@ -34,17 +30,7 @@
   let remaining = config.time;
   let timerId = null;
   let state = "ready";
-  let hasShuffled = false;
-
-  document.querySelectorAll(".difficulty-buttons button").forEach(button => {
-    button.addEventListener("click", () => {
-      document.querySelectorAll(".difficulty-buttons button").forEach(b => b.classList.remove("active"));
-      button.classList.add("active");
-      selectedLevel = button.dataset.level;
-      config = LEVELS[selectedLevel];
-      $("difficultyDesc").textContent = config.label;
-      timeEl.textContent = config.time;
-    });
+  let streak = 0;
   });
 
   function shuffle(array) {
@@ -85,16 +71,16 @@
     if (state === "playing" || state === "preview") return;
 
     clearInterval(timerId);
-    config = LEVELS[selectedLevel];
+    config = LEVEL;
     cards = createDeck();
     firstCard = null;
     secondCard = null;
     lockBoard = true;
     score = 0;
     matchedPairs = 0;
+    streak = 0;
     remaining = config.time;
     state = "preview";
-    hasShuffled = false;
 
     updateHUD();
     renderBoard();
@@ -163,7 +149,13 @@
     secondCard.classList.add("matched");
     score = Math.min(200, score + 20);
     matchedPairs += 1;
-    notice.textContent = "+20점! 같은 피자를 찾았어요.";
+    streak += 1;
+    let comboText = "+20점! 같은 피자를 찾았어요.";
+    if (streak === 3) comboText = "✨ COMBO x3!";
+    if (streak === 5) comboText = "🔥 PIZZA MASTER!";
+    if (streak === 7) comboText = "👑 PIZZA KING!";
+    if (streak === 10) comboText = "🎉 PERFECT!";
+    notice.textContent = comboText;
     resetTurn();
     updateHUD();
 
@@ -171,15 +163,11 @@
       setTimeout(() => finishGame(true), 450);
       return;
     }
-
-    if (config.shuffleAt && score >= config.shuffleAt && !hasShuffled) {
-      hasShuffled = true;
-      setTimeout(shuffleUnmatchedCards, 550);
-    }
   }
 
   function handleMismatch() {
     score = Math.max(0, score - 5);
+    streak = 0;
     notice.textContent = "-5점! 다른 피자예요.";
     updateHUD();
 
@@ -194,21 +182,7 @@
     firstCard = null;
     secondCard = null;
     lockBoard = false;
-  }
-
-  function shuffleUnmatchedCards() {
-    if (state !== "playing") return;
-
-    lockBoard = true;
-    notice.textContent = "⚠️ 중간 셔플! 남은 카드 위치가 바뀝니다.";
-    board.classList.add("shuffle-alert");
-
-    const unmatchedElements = [...board.querySelectorAll(".card:not(.matched)")];
-    const unmatchedData = unmatchedElements.map(el => ({
-      pairId: Number(el.dataset.pairId),
-      uid: el.dataset.uid,
-      src: CARD_IMAGES[Number(el.dataset.pairId)]
-    }));
+  }));
 
     const shuffledData = shuffle(unmatchedData);
 
@@ -226,11 +200,24 @@
     }, 700);
   }
 
+  function getBuildStage(currentScore) {
+    if (currentScore < 20) return "도우를 준비해요!";
+    if (currentScore < 40) return "🍞 도우 완성!";
+    if (currentScore < 60) return "🍅 소스를 바르는 중!";
+    if (currentScore < 80) return "🧀 치즈를 듬뿍!";
+    if (currentScore < 120) return "🥓 토핑을 올리는 중!";
+    if (currentScore < 160) return "🔥 오븐에서 굽는 중!";
+    if (currentScore < 200) return "🍕 거의 완성됐어요!";
+    return "🎉 피자 완성!";
+  }
+
   function updateHUD() {
     scoreEl.textContent = score;
     timeEl.textContent = Math.max(0, remaining);
     pairsEl.textContent = Math.max(0, 10 - matchedPairs);
     progress.style.width = `${Math.min(100, score / 200 * 100)}%`;
+    buildStage.textContent = getBuildStage(score);
+    hud.classList.toggle("last-seconds", state === "playing" && remaining <= 10);
   }
 
   function finishGame(success) {
@@ -247,6 +234,10 @@
 
     const successBox = $("successBox");
     if (success) {
+      const randomPizza = CARD_IMAGES[Math.floor(Math.random() * CARD_IMAGES.length)];
+      resultPizzaImage.src = randomPizza;
+      resultPizzaImage.classList.remove("hidden");
+      $("resultIcon").classList.add("hidden");
       const d = new Date();
       const datePart =
         String(d.getFullYear()).slice(-2) +
@@ -255,6 +246,8 @@
       $("successCode").textContent = `MEM-${datePart}-${Math.floor(10000 + Math.random() * 90000)}`;
       successBox.classList.remove("hidden");
     } else {
+      resultPizzaImage.classList.add("hidden");
+      $("resultIcon").classList.remove("hidden");
       successBox.classList.add("hidden");
     }
 

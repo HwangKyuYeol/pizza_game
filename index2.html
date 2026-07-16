@@ -26,7 +26,7 @@
           <strong><b id="pairs">10</b>쌍</strong>
         </div>
       </div>
-      <div class="progress-track"><div id="progress" class="progress"></div></div>
+      <div class="progress-track"><div id="progress" class="progress"></div></div><div id="buildStage" class="build-stage">도우를 준비해요!</div>
     </header>
 
     <section id="gameArea" class="game-area hidden">
@@ -46,14 +46,9 @@
           <div><b>총 카드</b><span>20장 · 10쌍</span></div>
         </div>
 
-        <div class="difficulty">
-          <p>난이도 선택</p>
-          <div class="difficulty-buttons">
-            <button type="button" data-level="easy">쉬움</button>
-            <button type="button" data-level="normal">보통</button>
-            <button type="button" data-level="hard" class="active">어려움</button>
-          </div>
-          <small id="difficultyDesc">35초 · 3초 미리보기 · 중간 셔플</small>
+        <div class="fixed-level">
+          <strong>게임 설정</strong>
+          <span>45초 · 카드 미리보기 3.5초 · 총 10쌍</span>
         </div>
 
         <button id="startButton" class="main-button" type="button">게임 시작</button>
@@ -68,7 +63,7 @@
       <div class="panel">
         <p class="brand">선명희피자</p>
         <h2 id="resultTitle">피자 완성!</h2>
-        <div id="resultIcon" class="result-icon">🍕</div>
+        <div id="resultIcon" class="result-icon">🍕</div><img id="resultPizzaImage" class="result-pizza-image hidden" alt="완성된 피자">
         <p id="resultMessage" class="lead"></p>
         <div id="successBox" class="success-box hidden">
           <span>SUCCESS CODE</span>
