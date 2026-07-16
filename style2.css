@@ -37,3 +37,29 @@ button{font:inherit}
 @keyframes pizzaReveal{0%{transform:scale(.55) rotate(-12deg);opacity:0}70%{transform:scale(1.08) rotate(4deg);opacity:1}100%{transform:scale(1);opacity:1}}
 .last-seconds .hud-card:nth-child(2){background:rgba(174,0,0,.82);animation:timePulse .55s infinite alternate}
 @keyframes timePulse{to{transform:scale(1.05)}}
+
+
+/* 맞춘 카드는 3D 회전에 의존하지 않고 앞면을 직접 고정 표시 */
+.card.matched{
+  transform:none !important;
+  opacity:1 !important;
+  pointer-events:none;
+}
+
+.card.matched .card-back{
+  opacity:0 !important;
+  visibility:hidden !important;
+  transform:none !important;
+}
+
+.card.matched .card-front{
+  opacity:1 !important;
+  visibility:visible !important;
+  transform:none !important;
+  backface-visibility:visible !important;
+  -webkit-backface-visibility:visible !important;
+}
+
+.card.matched::after{
+  transform:none !important;
+}

@@ -170,12 +170,10 @@
     const matchedFirst = firstCard;
     const matchedSecond = secondCard;
 
+    matchedFirst.classList.remove("flipped");
+    matchedSecond.classList.remove("flipped");
     matchedFirst.classList.add("matched");
     matchedSecond.classList.add("matched");
-
-    // matched에는 flipped를 그대로 남겨 앞면을 계속 유지
-    matchedFirst.classList.add("flipped");
-    matchedSecond.classList.add("flipped");
 
     score = Math.min(200, score + 20);
     matchedPairs += 1;
