@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#d71920">
+  <title>선명희피자 카드 뒤집기 챌린지</title>
+  <link rel="stylesheet" href="./style2.css">
+</head>
+<body>
+  <main id="app">
+    <div class="background" aria-hidden="true"></div>
+
+    <header id="hud" class="hud hidden">
+      <div class="hud-row">
+        <div class="hud-card">
+          <span>점수</span>
+          <strong><b id="score">0</b> / 200</strong>
+        </div>
+        <div class="hud-card">
+          <span>남은 시간</span>
+          <strong><b id="time">35</b>초</strong>
+        </div>
+        <div class="hud-card">
+          <span>남은 짝</span>
+          <strong><b id="pairs">10</b>쌍</strong>
+        </div>
+      </div>
+      <div class="progress-track"><div id="progress" class="progress"></div></div>
+    </header>
+
+    <section id="gameArea" class="game-area hidden">
+      <div id="notice" class="notice">카드 위치를 기억하세요!</div>
+      <div id="board" class="board" aria-label="피자 카드 게임"></div>
+    </section>
+
+    <section id="startScreen" class="screen">
+      <div class="panel">
+        <p class="brand">선명희피자</p>
+        <h1>피자 카드<br>뒤집기 챌린지</h1>
+        <p class="lead">같은 피자 카드 2장을 찾아<br>200점을 완성하세요!</p>
+
+        <div class="rule-box">
+          <div><b>같은 카드 1쌍</b><span>+20점</span></div>
+          <div><b>틀렸을 때</b><span>-5점</span></div>
+          <div><b>총 카드</b><span>20장 · 10쌍</span></div>
+        </div>
+
+        <div class="difficulty">
+          <p>난이도 선택</p>
+          <div class="difficulty-buttons">
+            <button type="button" data-level="easy">쉬움</button>
+            <button type="button" data-level="normal">보통</button>
+            <button type="button" data-level="hard" class="active">어려움</button>
+          </div>
+          <small id="difficultyDesc">35초 · 3초 미리보기 · 중간 셔플</small>
+        </div>
+
+        <button id="startButton" class="main-button" type="button">게임 시작</button>
+      </div>
+    </section>
+
+    <section id="countdown" class="countdown hidden">
+      <strong id="countdownText">3</strong>
+    </section>
+
+    <section id="resultScreen" class="screen hidden">
+      <div class="panel">
+        <p class="brand">선명희피자</p>
+        <h2 id="resultTitle">피자 완성!</h2>
+        <div id="resultIcon" class="result-icon">🍕</div>
+        <p id="resultMessage" class="lead"></p>
+        <div id="successBox" class="success-box hidden">
+          <span>SUCCESS CODE</span>
+          <strong id="successCode"></strong>
+          <small>결과 화면을 캡처해 댓글 또는 DM으로 보내주세요.</small>
+        </div>
+        <button id="retryButton" class="main-button" type="button">다시 하기</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="./game2.js"></script>
+</body>
+</html>
