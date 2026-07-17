@@ -1,0 +1,1 @@
+window.PizzaUI={rank(s){if(s>=700)return'SSS';if(s>=600)return'SS';if(s>=500)return'S';if(s>=400)return'A';if(s>=300)return'B';return'C'},stage(s){if(s<100)return'🍞 도우 준비';if(s<200)return'🍅 소스 완성';if(s<300)return'🧀 치즈 듬뿍';if(s<400)return'🥩 토핑 추가';if(s<500)return'🔥 오븐에서 굽는 중';return'🍕 피자 완성!'}};
