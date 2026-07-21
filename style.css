@@ -1,10 +1,29 @@
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#17110f;font-family:Arial,sans-serif}#app{position:fixed;inset:0;overflow:hidden;touch-action:none}.background{position:absolute;inset:0;background:linear-gradient(#16070566,#160705aa),url('./assets/images/background.png') center/cover;opacity:.84}canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}.hidden{display:none!important}.screen{position:absolute;inset:0;z-index:30;display:grid;place-items:center;padding:20px;background:#12070477}.panel{width:min(92vw,470px);padding:28px 22px;border-radius:28px;background:#fffaf3f5;text-align:center}.brand,h1,h2{color:#d71920}.brand{font-weight:900}h1{font-size:46px;margin:0}button{width:100%;min-height:54px;border:0;border-radius:999px;background:#d71920;color:#fff;font-weight:900;font-size:18px}.rules{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:18px 0}.rules div{background:#fff;border:1px solid #ead5c4;border-radius:14px;padding:12px;font-weight:800}.hud{position:absolute;z-index:10;inset:0;padding:12px;color:#fff;pointer-events:none}.top,.stats{display:flex;justify-content:space-between;gap:8px;width:min(94vw,700px);margin:auto}.top>div,.stats>div,#mission,#stage{background:#000a;border-radius:999px;padding:8px 12px;text-align:center}.stats{margin-top:7px}.stats>div{flex:1}.track{width:min(90vw,620px);height:10px;margin:8px auto;background:#ffffff55;border-radius:99px;overflow:hidden}#progress{height:100%;width:0;background:linear-gradient(90deg,#ffd94d,#ff7a22,#d71920)}#stage,#mission{width:min(88vw,580px);margin:6px auto 0;font-size:13px}#fever{position:absolute;top:205px;left:50%;transform:translateX(-50%);background:#e71919;padding:8px 15px;border-radius:999px;font-weight:900}.count{position:absolute;inset:0;z-index:40;display:grid;place-items:center;background:#0004}.count b{font-size:140px;color:#fff;text-shadow:0 9px #d71920}#resultRank{font-size:92px;font-weight:1000;color:#d71920;text-shadow:0 8px #ffd34f}#codeBox{margin:18px 0;padding:18px;border:2px dashed #d71920;border-radius:18px;background:#fff}
 
-/* v2: 폭탄 충돌·피버 연출 */
-#app.bomb-hit{animation:bombShake .42s cubic-bezier(.36,.07,.19,.97)}
-#app.bomb-hit::after{content:"";position:absolute;inset:0;z-index:25;pointer-events:none;background:radial-gradient(circle,transparent 28%,rgba(255,0,0,.4));animation:bombFlash .42s ease-out}
-@keyframes bombShake{0%,100%{transform:translate3d(0,0,0)}10%{transform:translate3d(-13px,5px,0) rotate(-.6deg)}20%{transform:translate3d(11px,-5px,0) rotate(.6deg)}32%{transform:translate3d(-9px,-3px,0)}44%{transform:translate3d(8px,4px,0)}58%{transform:translate3d(-6px,2px,0)}72%{transform:translate3d(5px,-2px,0)}86%{transform:translate3d(-2px,1px,0)}}
-@keyframes bombFlash{from{opacity:1}to{opacity:0}}
-#app.fever-mode .background{filter:saturate(1.45) contrast(1.1)}
-#app.fever-mode::before{content:"";position:absolute;inset:0;z-index:8;pointer-events:none;background:linear-gradient(rgba(255,70,0,.08),rgba(255,0,0,.24));animation:feverGlow .55s infinite alternate}
-@keyframes feverGlow{to{opacity:.42}}
+/* v3: uploaded pizza-box player and bomb feedback */
+#app.bomb-hit {
+  animation: bombHitShake .46s cubic-bezier(.36,.07,.19,.97);
+}
+#app.bomb-hit::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:25;
+  pointer-events:none;
+  background:radial-gradient(circle at center, transparent 25%, rgba(255,0,0,.4) 100%);
+  animation:bombHitFlash .46s ease-out forwards;
+}
+@keyframes bombHitShake {
+  0%,100% { transform:translate3d(0,0,0); }
+  10% { transform:translate3d(-14px,5px,0) rotate(-.45deg); }
+  20% { transform:translate3d(12px,-5px,0) rotate(.45deg); }
+  32% { transform:translate3d(-10px,-3px,0) rotate(-.35deg); }
+  44% { transform:translate3d(9px,4px,0) rotate(.35deg); }
+  58% { transform:translate3d(-6px,2px,0); }
+  72% { transform:translate3d(5px,-2px,0); }
+  86% { transform:translate3d(-2px,1px,0); }
+}
+@keyframes bombHitFlash {
+  0% { opacity:1; }
+  100% { opacity:0; }
+}
