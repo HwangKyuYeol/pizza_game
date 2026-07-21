@@ -3,9 +3,17 @@
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#12100f;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif;-webkit-user-select:none;user-select:none;overscroll-behavior:none}
 button{font:inherit}
 #gameRoot{position:fixed;inset:0;overflow:hidden;touch-action:none;background:#1a1512}
-.scene{position:absolute;inset:0;background:
-linear-gradient(rgba(12,8,5,.18),rgba(12,8,5,.38)),
-url("./assets/images/background.png") center/cover no-repeat;transform:scale(1.015)}
+.scene{
+  position:absolute;
+  inset:0;
+  background-color:#45baf2;
+  background-image:
+    linear-gradient(rgba(12,8,5,.12),rgba(12,8,5,.28)),
+    url("./assets/images/background.png");
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
 canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
 .is-hidden{display:none!important}
 
@@ -75,4 +83,38 @@ h2{font-size:clamp(34px,8vw,46px)}
 @media(max-width:430px){
   .stat-card strong{font-size:13px}
   .fever-banner{top:198px}
+}
+
+
+/* 모바일에서는 배경 전체가 한 화면 안에 보이도록 표시 */
+@media (max-width: 700px), (orientation: portrait) {
+  .scene {
+    background-color:#43b9f1;
+    background-image:
+      linear-gradient(rgba(12,8,5,.08),rgba(12,8,5,.22)),
+      url("./assets/images/background.png");
+    background-size:contain;
+    background-position:center center;
+    background-repeat:no-repeat;
+  }
+
+  /* 세로 화면에서 이미지 위아래 여백이 생겨도 자연스럽게 연결 */
+  #gameRoot {
+    background:
+      linear-gradient(
+        180deg,
+        #37adf0 0%,
+        #68cef2 48%,
+        #76c93d 74%,
+        #b36a2c 100%
+      );
+  }
+}
+
+/* 가로형 모바일은 화면 비율에 따라 전체 표시를 우선 */
+@media (max-width: 950px) and (orientation: landscape) {
+  .scene {
+    background-size:contain;
+    background-position:center center;
+  }
 }
