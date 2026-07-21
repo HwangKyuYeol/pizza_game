@@ -1,1 +1,30 @@
-window.PizzaAudio=(()=>{let c=null;function u(){if(!c){const A=window.AudioContext||window.webkitAudioContext;if(A)c=new A}if(c&&c.state==='suspended')c.resume()}function b(f,d=.06){if(!c)return;const o=c.createOscillator(),g=c.createGain();o.frequency.value=f;g.gain.value=.03;o.connect(g);g.connect(c.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+d);o.stop(c.currentTime+d)}return{unlock:u,beep:b}})();
+window.PizzaAudio = (() => {
+  let ctx = null;
+  let enabled = true;
+  function unlock(){
+    if(!ctx){
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if(AudioContextClass) ctx = new AudioContextClass();
+    }
+    if(ctx && ctx.state === "suspended") ctx.resume().catch(()=>{});
+  }
+  function beep(freq, duration=.06, type="sine", volume=.035){
+    if(!enabled || !ctx) return;
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+    oscillator.frequency.value = freq;
+    oscillator.type = type;
+    gain.gain.setValueAtTime(volume, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(.0001, ctx.currentTime + duration);
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+    oscillator.start();
+    oscillator.stop(ctx.currentTime + duration);
+  }
+  return {
+    unlock,
+    beep,
+    toggle(){ enabled = !enabled; return enabled; },
+    isEnabled(){ return enabled; }
+  };
+})();

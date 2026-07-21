@@ -1,7 +1,99 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>선명희피자 500점 챌린지</title><link rel="stylesheet" href="./style.css"></head><body>
-<main id="app"><div class="background"></div><canvas id="gameCanvas"></canvas>
-<section id="hud" class="hud hidden"><div class="top"><div id="hearts"></div><div>🏆 최고 <b id="best">0</b></div></div><div class="stats"><div>점수 <b id="score">0</b>/500</div><div>시간 <b id="time">30</b>초</div><div>등급 <b id="rank">C</b></div></div><div class="track"><div id="progress"></div></div><div id="stage">🍞 도우 준비</div><div id="mission"></div><div id="fever" class="hidden">🔥 FEVER x2 🔥</div></section>
-<section id="start" class="screen"><div class="panel"><p class="brand">선명희피자</p><h1>500점<br>피자 챌린지</h1><p>30초 안에 500점을 모아 피자를 완성하세요!</p><div class="rules"><div>재료 +10</div><div>황금피자 +50</div><div>폭탄 -10 / 하트 -1</div><div>마지막 8초 x2</div></div><button id="startBtn">게임 시작</button></div></section>
-<section id="count" class="count hidden"><b id="countText">3</b></section>
-<section id="result" class="screen hidden"><div class="panel"><p class="brand">선명희피자</p><h2 id="resultTitle"></h2><div id="resultRank"></div><p id="resultMsg"></p><div id="codeBox" class="hidden">SUCCESS CODE<br><b id="code"></b></div><button id="retryBtn">다시 하기</button></div></section>
-</main><script src="./audio.js"></script><script src="./missions.js"></script><script src="./items.js"></script><script src="./ui.js"></script><script src="./game.js"></script></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#d71920">
+  <title>선명희피자 500점 챌린지</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main id="app">
+    <div class="background" aria-hidden="true"></div>
+    <canvas id="gameCanvas"></canvas>
+
+    <section id="hud" class="hud hidden">
+      <div class="top-row">
+        <div class="hearts" id="hearts"></div>
+        <div class="best-score">🏆 최고 <b id="bestScore">0</b></div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><span>점수</span><strong><b id="score">0</b> / 500</strong></div>
+        <div class="stat"><span>남은 시간</span><strong><b id="time">30</b>초</strong></div>
+        <div class="stat"><span>등급</span><strong id="rank">C</strong></div>
+      </div>
+
+      <div class="progress-wrap">
+        <div class="progress-track"><div id="progress" class="progress"></div></div>
+        <div id="buildStage" class="build-stage">🍞 도우 준비</div>
+      </div>
+
+      <div id="missionBox" class="mission-box">
+        <span>오늘의 미션</span>
+        <strong id="missionText">미션 준비 중</strong>
+        <small id="missionProgress">0 / 0</small>
+      </div>
+
+      <div class="top-actions">
+        <button id="soundButton" type="button">🔊</button>
+        <button id="pauseButton" type="button">Ⅱ</button>
+      </div>
+
+      <div id="feverBanner" class="fever hidden">🔥 FEVER x2 🔥</div>
+      <div id="powerBanner" class="power-banner hidden"></div>
+    </section>
+
+    <section id="startScreen" class="screen">
+      <div class="panel">
+        <p class="brand">선명희피자</p>
+        <h1>500점<br>피자 챌린지</h1>
+        <p class="lead">30초 안에 500점을 모아<br>피자를 완성하세요!</p>
+        <div class="rules">
+          <div><b>일반 재료</b><span>+10점</span></div>
+          <div><b>황금 피자</b><span>+50점</span></div>
+          <div><b>폭탄</b><span>-10점 · 하트 -1</span></div>
+          <div><b>마지막 8초</b><span>점수 2배</span></div>
+        </div>
+        <p class="guide">PC는 마우스, 모바일은 손가락으로 좌우 이동</p>
+        <button id="startButton" class="main-button" type="button">게임 시작</button>
+      </div>
+    </section>
+
+    <section id="countdownScreen" class="countdown hidden">
+      <strong id="countdownText">3</strong>
+    </section>
+
+    <section id="pauseScreen" class="screen hidden">
+      <div class="panel small">
+        <h2>일시정지</h2>
+        <button id="resumeButton" class="main-button" type="button">계속하기</button>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen hidden">
+      <div class="panel">
+        <p class="brand">선명희피자</p>
+        <h2 id="resultTitle"></h2>
+        <div id="resultRank" class="result-rank">C</div>
+        <p id="resultMessage" class="lead"></p>
+        <div id="successBox" class="success-box hidden">
+          <span>SUCCESS CODE</span>
+          <strong id="successCode"></strong>
+          <small>결과 화면을 캡처해 댓글 또는 DM으로 보내주세요.</small>
+        </div>
+        <div class="result-actions">
+          <button id="saveButton" class="sub-button hidden" type="button">결과 이미지 저장</button>
+          <button id="retryButton" class="main-button" type="button">다시 하기</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="./audio.js"></script>
+  <script src="./missions.js"></script>
+  <script src="./items.js"></script>
+  <script src="./ui.js"></script>
+  <script src="./game.js"></script>
+</body>
+</html>

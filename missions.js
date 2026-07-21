@@ -1,1 +1,24 @@
-window.PizzaMissions={create(){const a=[{type:'collect',key:'onion',target:6,text:'양파 6개 받기'},{type:'collect',key:'sweet',target:6,text:'고구마 6개 받기'},{type:'combo',target:10,text:'10콤보 달성하기'}];const m={...a[Math.floor(Math.random()*a.length)]};m.progress=0;m.done=false;return m},update(m,e,p){if(m.done)return false;if(m.type==='collect'&&e==='collect'&&p.type===m.key)m.progress++;if(m.type==='combo'&&e==='combo')m.progress=Math.max(m.progress,p.combo);if(m.progress>=m.target){m.done=true;return true}return false}};
+window.PizzaMissions = (() => {
+  const templates = [
+    {type:"collect", key:"onion", target:6, reward:50, text:"양파 6개 받기"},
+    {type:"collect", key:"sweet", target:6, reward:50, text:"고구마 6개 받기"},
+    {type:"combo", target:10, reward:50, text:"10콤보 달성하기"}
+  ];
+  function create(){
+    const mission = {...templates[Math.floor(Math.random()*templates.length)]};
+    mission.progress = 0;
+    mission.completed = false;
+    return mission;
+  }
+  function update(mission, event, payload){
+    if(!mission || mission.completed) return false;
+    if(mission.type === "collect" && event === "collect" && payload.type === mission.key) mission.progress++;
+    if(mission.type === "combo" && event === "combo") mission.progress = Math.max(mission.progress, payload.combo);
+    if(mission.progress >= mission.target){
+      mission.completed = true;
+      return true;
+    }
+    return false;
+  }
+  return {create, update};
+})();
